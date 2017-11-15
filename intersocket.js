@@ -38,11 +38,11 @@ const Intersocket = function (options, client) {
 
     const __WsClient = client;
 
-    const __reconnectDelay = options.reconnectDelay instanceof Number ? options.reconnectDelay : 100;
-    const __monitorInterval = options.monitorInterval instanceof Number ? options.monitorInterval : 10;
-    const __retryDelay = options.retryDelay instanceof Number ? options.retryDelay : 1000;
-    const __maxRetry = options.maxRetry instanceof Number ? options.maxRetry : 5;
-    const __clientChange = options.clientChange instanceof Number ? options.clientChange : 'fail';
+    const __reconnectDelay = typeof options.reconnectDelay === 'number' ? options.reconnectDelay : 100;
+    const __monitorInterval = typeof options.monitorInterval === 'number' ? options.monitorInterval : 10;
+    const __retryDelay = typeof options.retryDelay === 'number' ? options.retryDelay : 1000;
+    const __maxRetry = typeof options.maxRetry === 'number' ? options.maxRetry : 5;
+    const __clientChange = typeof options.clientChange === 'string' ? options.clientChange : 'fail';
 
     const __onOpenCb = options.onOpen instanceof Function ? options.onOpen : voidHandler;
     const __onReconnectCb = options.onReconnect instanceof Function ? options.onReconnect : voidHandler;
