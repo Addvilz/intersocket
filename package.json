@@ -1,0 +1,14 @@
+{
+  "name": "intersocket",
+  "version": "1.0.0",
+  "description": "Self-aware pub-sub WebSocket client",
+  "main": "intersocket.js",
+  "author": "Matiss Treinis <mrtreinis@gmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+      "ws": "^3.3.1"
+  }
+}
