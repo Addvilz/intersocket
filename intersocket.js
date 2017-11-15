@@ -71,7 +71,7 @@ const Intersocket = function (options, client) {
     };
 
     this.send = (action, payload, cbok, cberr) => {
-        if (false === action instanceof String || '' === action.length) {
+        if (false === action instanceof String || '' === action) {
             throw 'Notification action must be non-empty string'
         }
 
@@ -81,7 +81,7 @@ const Intersocket = function (options, client) {
     };
 
     this.notify = (action, payload) => {
-        if (false === action instanceof String || '' === action.length) {
+        if (false === action instanceof String || '' === action) {
             throw 'Notification action must be non-empty string'
         }
 
@@ -173,10 +173,6 @@ const Intersocket = function (options, client) {
     this.__init = () => {
         __monitor = setInterval(this.__monitorTick, __monitorInterval);
         __client = this.__createClient();
-
-        setInterval(() => {
-            console.log(__queue)
-        }, 1000);
     };
 
 
