@@ -71,7 +71,7 @@ const Intersocket = function (options, client) {
     };
 
     this.send = (action, payload, cbok, cberr) => {
-        if (false === action instanceof String || '' === action) {
+        if (false === (typeof action === 'string') || '' === action) {
             throw 'Notification action must be non-empty string'
         }
 
@@ -81,7 +81,7 @@ const Intersocket = function (options, client) {
     };
 
     this.notify = (action, payload) => {
-        if (false === action instanceof String || '' === action) {
+        if (false === (typeof action === 'string') || '' === action) {
             throw 'Notification action must be non-empty string'
         }
 
