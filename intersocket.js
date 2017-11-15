@@ -1,6 +1,5 @@
 'use strict';
 const UUIDv4 = require('uuid').v4;
-const WebSocket = 'undefined' === typeof WebSocket ? require('ws') : WebSocket;
 
 const voidHandler = (e) => {
 };
@@ -24,10 +23,20 @@ class InterMessage {
     }
 }
 
-const Intersocket = function (options) {
+const Intersocket = function (options, client) {
     if ('undefined' === typeof options.url) {
         throw 'Missing WS target URL: options[url]'
     }
+
+    if (undefined === client && undefined !== WebSocket) {
+        client = WebSocket;
+    }
+
+    if (!client) {
+        throw 'Client not provided';
+    }
+
+    const __WsClient = client;
 
     const __reconnectDelay = options.reconnectDelay instanceof Number ? options.reconnectDelay : 100;
     const __monitorInterval = options.monitorInterval instanceof Number ? options.monitorInterval : 10;
@@ -218,7 +227,7 @@ const Intersocket = function (options) {
     };
 
     this.__createClient = () => {
-        const client = new WebSocket(options.url);
+        const client = new __WsClient(options.url);
         client.__id = UUIDv4();
         client.onopen = this.__onOpen;
         client.onerror = this.__onError;

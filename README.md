@@ -22,11 +22,12 @@ The payload element will then be delivered to response callback.
 
 ```js
 const Socket = require('intersocket');
+const WebSocket = require('ws'); // In case of Node.
 
 const instance = new Socket({
     'url': 'ws://example.com',
     //... options
-});
+}, WebSocket); // Second argument can be anything WebSocket-like.
 
 instance.send(
     'go_get',
