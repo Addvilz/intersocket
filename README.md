@@ -83,6 +83,8 @@ if given instance is to be terminated.
 
 `onOpen<Function(event)>` - Standard WebSocket event callback. 
 
+`onReconnect<Function>` - Invoked before reconnect is scheduled.
+
 `onClose<Function(event)>` - Standard WebSocket event callback. 
 
 `onMessage<Function(event)>` - Standard WebSocket event callback. 

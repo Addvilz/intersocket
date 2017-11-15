@@ -45,6 +45,7 @@ const Intersocket = function (options, client) {
     const __clientChange = options.clientChange instanceof Number ? options.clientChange : 'fail';
 
     const __onOpenCb = options.onOpen instanceof Function ? options.onOpen : voidHandler;
+    const __onReconnectCb = options.onReconnect instanceof Function ? options.onReconnect : voidHandler;
     const __onCloseCb = options.onClose instanceof Function ? options.onClose : voidHandler;
     const __onMessageCb = options.onMessage instanceof Function ? options.onMessage : voidHandler;
     const __onLostMessageCb = options.onLostMessage instanceof Function ? options.onLostMessage : voidHandler;
@@ -216,6 +217,8 @@ const Intersocket = function (options, client) {
         if (__disposed) {
             return;
         }
+
+        __onReconnectCb();
 
         setTimeout(() => {
             __client = this.__createClient();
