@@ -156,7 +156,6 @@ const Intersocket = function (options, client) {
                 message.isSent = true;
                 message.sentAt = currentTime;
 
-
             } catch (e) {
                 __onSendErrorCb(e, message);
 
@@ -226,12 +225,19 @@ const Intersocket = function (options, client) {
     };
 
     this.__createClient = () => {
-        const client = new __WsClient(options.url);
+        try {
+            const client = new __WsClient(options.url);
+        } catch (e) {
+            this.__onClose(e);
+            return null;
+        }
+
         client.__id = UUIDv4();
         client.onopen = this.__onOpen;
         client.onerror = this.__onError;
         client.onmessage = this.__onMessage;
         client.onclose = this.__onClose;
+
         return client;
     };
 
