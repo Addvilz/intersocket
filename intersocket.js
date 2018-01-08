@@ -225,8 +225,10 @@ const Intersocket = function (options, client) {
     };
 
     this.__createClient = () => {
+        let client;
+
         try {
-            const client = new __WsClient(options.url);
+            client = new __WsClient(options.url);
         } catch (e) {
             this.__onClose(e);
             return null;
@@ -244,4 +246,4 @@ const Intersocket = function (options, client) {
     this.__init();
 };
 
-module.exports = Intersocket;
+export default Intersocket;
