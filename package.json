@@ -1,6 +1,6 @@
 {
   "name": "intersocket",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Self-aware pub-sub WebSocket client",
   "main": "intersocket.js",
   "author": "Matiss Treinis <mrtreinis@gmail.com>",

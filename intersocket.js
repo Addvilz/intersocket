@@ -52,6 +52,8 @@ const Intersocket = function (options, client) {
     const __onSendErrorCb = options.onSendError instanceof Function ? options.onSendError : voidHandler;
     const __onErrorCb = options.onError instanceof Function ? options.onError : voidHandler;
 
+    const __debugEnabled = typeof options.debug === 'boolean' ? options.debug : false;
+
     const __queue = [];
 
     let __disposed = false;
@@ -156,6 +158,13 @@ const Intersocket = function (options, client) {
                 message.isSent = true;
                 message.sentAt = currentTime;
 
+                if (__debugEnabled) {
+                    console.groupCollapsed('Sent socket message: ' + message.action);
+                    console.log('message: ', message);
+                    console.log('url', options.url);
+                    console.groupEnd();
+                }
+
             } catch (e) {
                 __onSendErrorCb(e, message);
 
@@ -190,6 +199,13 @@ const Intersocket = function (options, client) {
         const response = JSON.parse(e.data);
 
         if (!response.id) {
+            if (__debugEnabled) {
+                console.groupCollapsed('Received unknown payload');
+                console.log('response: ', response);
+                console.log('url', options.url);
+                console.groupEnd();
+            }
+
             __onLostMessageCb(e);
             return;
         }
@@ -199,13 +215,42 @@ const Intersocket = function (options, client) {
         });
 
         if (-1 === indexOf) {
+            if (__debugEnabled) {
+                console.groupCollapsed('Received message with unknown id: ' + message.action);
+                console.log('message: ', message);
+                console.log('response: ', response);
+                console.log('queue: ', __queue);
+                console.log('url', options.url);
+                console.groupEnd();
+            }
+
             __onLostMessageCb(e);
             return;
         }
 
         const message = __queue[indexOf];
 
-        message.cbok(response.payload);
+        if (typeof response.action !== 'undefined' && response.action === 'error') {
+            message.cberr(response.payload);
+
+            if (__debugEnabled) {
+                console.groupCollapsed('Received failed socket message: ' + message.action);
+                console.log('message: ', message);
+                console.log('response: ', response);
+                console.log('url', options.url);
+                console.groupEnd();
+            }
+        } else {
+            message.cbok(response.payload);
+
+            if (__debugEnabled) {
+                console.groupCollapsed('Received socket message: ' + message.action);
+                console.log('message: ', message);
+                console.log('response: ', response);
+                console.log('url', options.url);
+                console.groupEnd();
+            }
+        }
 
         __queue.splice(indexOf, 1);
     };
