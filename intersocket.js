@@ -190,7 +190,7 @@ const Intersocket = function (options, client) {
                 message.sentAt = currentTime;
 
                 if (__debugEnabled) {
-                    console.groupCollapsed('Sent socket message: ' + message.action);
+                    console.groupCollapsed("OUT\t["+ message.id +"]\t[" + message.action + ']');
                     console.log('message: ', message);
                     console.log('url', options.url);
                     console.groupEnd();
@@ -278,10 +278,10 @@ const Intersocket = function (options, client) {
 
             if (__debugEnabled) {
                 console.groupCollapsed(
-                    'Received message response: '
-                    + message.action
-                    + ', after '
-                    + millisToDuration(elapsed)
+                    "IN \t"
+                    + '[' + message.id + "]\t"
+                    + '[' + message.action + '] '
+                    + 'after ' + millisToDuration(elapsed)
                 );
 
                 console.log('message: ', message);
