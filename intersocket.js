@@ -4,6 +4,35 @@ const UUIDv4 = require('uuid').v4;
 const voidHandler = (e) => {
 };
 
+const millisToDuration = (millis) => {
+    const hours = Math.floor(millis / (1000 * 60 * 60) % 60);
+    const minutes = Math.floor(millis / (1000 * 60) % 60);
+    const seconds = Math.floor(millis / 1000 % 60);
+    const ms = Math.floor(millis % 1000);
+
+    let response = '';
+
+    if (0 < hours) {
+        response += hours + 'h ';
+    }
+
+    if (0 < minutes) {
+        response += minutes + 'm ';
+    }
+
+    if (0 < seconds) {
+        response += seconds + 's ';
+    }
+
+    if (0 < ms) {
+        response += ms + 'ms ';
+    }
+
+    response += '(' + millis + ' total)';
+
+    return response.trim();
+};
+
 class InterMessage {
     constructor(action, payload, cbok, cberr) {
         this.id = UUIDv4();
@@ -194,6 +223,7 @@ const Intersocket = function (options, client) {
     };
 
     this.__onMessage = (e) => {
+        const receivedAt = (new Date()) * 1;
         __onMessageCb(e);
 
         const response = JSON.parse(e.data);
@@ -242,9 +272,16 @@ const Intersocket = function (options, client) {
             }
         } else {
             message.cbok(response.payload);
+            const elapsed = receivedAt - message.createdAt;
 
             if (__debugEnabled) {
-                console.groupCollapsed('Received socket message: ' + message.action);
+                console.groupCollapsed(
+                    'Received message response: '
+                    + message.action
+                    + ', after '
+                    + millisToDuration(elapsed)
+                );
+
                 console.log('message: ', message);
                 console.log('response: ', response);
                 console.log('url', options.url);
