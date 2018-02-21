@@ -28,7 +28,9 @@ const millisToDuration = (millis) => {
         response += ms + 'ms ';
     }
 
-    response += '(' + millis + ' total)';
+    if (1000 <= millis) {
+        response += '(' + millis + 'ms total)';
+    }
 
     return response.trim();
 };
