@@ -1,3 +1,8 @@
+# This library has been deprecated
+
+This implementation of Intersocket has been superseded by https://github.com/rfksystems/intersocket-js.
+This package is dead and will receive no updates.
+
 # Intersocket
 
 Somewhat opinionated WS client that might or might not make WS req/res usage slightly more pleasant.
